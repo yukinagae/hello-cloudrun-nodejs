@@ -17,7 +17,7 @@ async function findTaskById(id) {
   return task
 }
 
-async function createTask(title, body) {
+async function createTask(title, body, message) {
   const key = datastore.key('Task')
   const task = {
     key: key,
@@ -29,6 +29,10 @@ async function createTask(title, body) {
       {
         name: 'body',
         value: body,
+      },
+      {
+        name: 'message',
+        value: message,
       },
     ],
   }
@@ -66,7 +70,7 @@ app.get('/tasks', async (_, res) => {
 
 // Create a task
 app.post('/tasks', async (req, res) => {
-  const createdTask = await createTask(req.body.title, req.body.body)
+  const createdTask = await createTask(req.body.title, req.body.body, req.body)
   res.send(createdTask)
 })
 
